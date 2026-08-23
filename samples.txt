@@ -1,0 +1,56 @@
+# Project 01 — Concurrent CLI Tools
+
+Proves: goroutines/channels, real concurrency handling.
+
+Tools to build:
+- [x] Concurrent file word-counter
+- [ ] TCP port scanner
+- [ ] Concurrent link checker / simple scraper
+
+## What I learned
+
+### Word counter (2026-08-24 to 2026-08-26)
+Built with a fan-out/fan-in pattern: one goroutine per file, all writing
+counts to a shared channel, one reader goroutine aggregating results.
+Hit a deadlock on day 1 (see learning-log/2026-08-24.md) from reading the
+channel after WaitGroup instead of concurrently with it.
+
+Decision: capped concurrency with a worker pool (buffered channel of size
+N as a semaphore) instead of unbounded goroutines, since a folder with
+10,000 files would otherwise spawn 10,000 goroutines at once. This is the
+kind of thing I'd bring up in an interview if asked "why not just spawn a
+goroutine per item."
+
+Code: `main.go`, `worker.go`. Run with `go run . -dir ./testdata -workers 8`.
+
+
+
+# Project 01 — Concurrent CLI Tools
+
+Proves: goroutines/channels, real concurrency handling.
+
+Tools to build:
+- [x] Concurrent file word-counter
+- [ ] TCP port scanner
+- [ ] Concurrent link checker / simple scraper
+
+## What I learned
+
+### Word counter (2026-08-24 to 2026-08-26)
+Built with a fan-out/fan-in pattern: one goroutine per file, all writing
+counts to a shared channel, one reader goroutine aggregating results.
+Hit a deadlock on day 1 (see learning-log/2026-08-24.md) from reading the
+channel after WaitGroup instead of concurrently with it.
+
+Decision: capped concurrency with a worker pool (buffered channel of size
+N as a semaphore) instead of unbounded goroutines, since a folder with
+10,000 files would otherwise spawn 10,000 goroutines at once. This is the
+kind of thing I'd bring up in an interview if asked "why not just spawn a
+goroutine per item."
+
+Code: `main.go`, `worker.go`. Run with `go run . -dir ./testdata -workers 8`.
+
+
+## Phase 1 — Go Fundamentals (target: 2 weeks)
+- [x] Tour of Go complete — 2026-08-24
+- [ ] Learning Go — chapters on interfaces/errors/concurrency read
